@@ -6,6 +6,11 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 );
 
+const getToday = () => {
+  const today = new Date();
+  return today.toISOString().split("T")[0];
+};
+
 // ────────────────────────────────────────────────────────────
 // Modal de confirmación de eliminación
 // ────────────────────────────────────────────────────────────
@@ -61,7 +66,7 @@ function Toast({ toasts }) {
 // ────────────────────────────────────────────────────────────
 export default function App() {
   const [nombre, setNombre] = useState("");
-  const [fecha, setFecha] = useState("");
+  const [fecha, setFecha] = useState(getToday());
   const [monto, setMonto] = useState("");
   const [pagos, setPagos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -338,6 +343,10 @@ export default function App() {
         }
         .ep-input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,.13); background: #fff; }
         .ep-input::placeholder { color: #cbd5e1; }
+        .ep-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
         /* Buttons */
         .ep-btn {
           display: inline-flex; align-items: center; gap: 6px;
@@ -573,7 +582,7 @@ export default function App() {
                 <tbody>
                   {loading ? (
                     <tr><td colSpan="3" style={{ padding: "16px" }}>
-                      {[1,2,3].map(i => <div key={i} className="ep-skeleton" />)}
+                      {[1, 2, 3].map(i => <div key={i} className="ep-skeleton" />)}
                     </td></tr>
                   ) : Object.keys(resumenEmpleados).length === 0 ? (
                     <tr><td colSpan="3" className="ep-empty">Sin datos disponibles</td></tr>
@@ -612,7 +621,7 @@ export default function App() {
               <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
                 <div className="ep-search-wrap">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
+                    <circle cx="11" cy="11" r="8" /><path strokeLinecap="round" d="M21 21l-4.35-4.35" />
                   </svg>
                   <input
                     className="ep-search-input"
@@ -644,7 +653,7 @@ export default function App() {
                 <tbody>
                   {loading ? (
                     <tr><td colSpan="4" style={{ padding: "16px" }}>
-                      {[1,2,3].map(i => <div key={i} className="ep-skeleton" />)}
+                      {[1, 2, 3].map(i => <div key={i} className="ep-skeleton" />)}
                     </td></tr>
                   ) : pagosFiltrados.length === 0 ? (
                     <tr><td colSpan="4" className="ep-empty">
